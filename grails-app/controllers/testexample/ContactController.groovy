@@ -9,7 +9,7 @@ class ContactController {
 
     ContactService contactService
 
-    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE",del: "DELETE"]
+    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
     def index(Integer max) {
         def all= Contact.list()
@@ -35,10 +35,11 @@ class ContactController {
                 allContact: allContact
         ])
     }
-    @Transactional
+
     def del(Long id){
         print(params)
-        Contact.findById(id).delete()
+        def contact = Contact.findById(id)
+        contact.delete(flush:true)
         redirect(action: listAll())
     }
 
